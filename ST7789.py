@@ -1,4 +1,10 @@
-"""Waveshare Pico LCD 2 inch display"""
+'''
+
+Custom LCD DRIVER
+
+Designed to be used along side Russ Hughes' Driver, found here https://github.com/russhughes/st7789_mpy. Read this article for an entire explaination.F
+
+'''
 
 
 # **************** FONTs ****************
