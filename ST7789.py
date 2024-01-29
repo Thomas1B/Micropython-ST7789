@@ -170,8 +170,7 @@ class LCD:
              xpos: int,
              ypos: int,
              color=colors['WHITE'],
-             bg_color=colors['BLACK'],
-             ignore_wrap=False) -> None:
+             bg_color=colors['BLACK']) -> None:
         '''
         Function that extends st7789's text func.
 
@@ -190,16 +189,26 @@ class LCD:
         # Make font size
         font_size = (font.WIDTH, font.HEIGHT)
 
-        # going through each character of the string
-        for i, c in enumerate(text):
-            self.tft.text(font, c, xpos, ypos, color, bg_color)
-            xpos += font_size[0]
+        # going through each word in the string, if it will be printed pass the screen width, then it goes to the next line aligned vertically.
+        for word in text.split(' '):
+            word_len = len(word) * font_size[0]
 
-            wrap_check = self.options == st7789.WRAP or self.options == st7789.WRAP_H
-            if not ignore_wrap and wrap_check:
-                if xpos + font_size[0] > self.screen_width():
-                    ypos += font_size[1]
-                    xpos = start_x
+            # if the word is beyond the screen width adjust ypos by font height and reset the xpos.
+            if xpos + word_len > self.screen_width():
+                ypos += font_size[1]
+                xpos = start_x
+
+            # print word to screen
+            self.tft.text(font, word, xpos, ypos, color, bg_color)
+            xpos += word_len
+
+            # after each word, if the xpos is back at the start, dont print a space (i.e align to the left)
+            if xpos == start_x:
+                continue
+            else:
+                # printing space between words
+                self.tft.text(font, ' ', xpos, ypos, color, bg_color)
+                xpos += font_size[0]
 
     def center_text(self, font, text, xpos=None, ypos=None, color=colors['WHITE'], background_color=colors['BLACK']) -> None:
         '''
@@ -330,7 +339,4 @@ if __name__ == '__main__':
     font = large_font
 
     screen.text(
-        font, 'Hello World! My name is Thomas Bourgeois ', 0, 0)
-
-    screen.text(
-        font, 'Hello World! My name is Thomas Bourgeois', 0, 150, ignore_wrap=True)
+        font, 'Hello World! I hope you are having a great day!', 0, 0)
