@@ -122,6 +122,8 @@ class LCD:
                  DC_PIN=DC_PIN,
                  BACKLIGHT_PIN=BACKLIGHT_PIN) -> None:
 
+        self.backlight_pin = Pin(BACKLIGHT_PIN, Pin.OUT)
+
         self.tft = st7789.ST7789(
             spi,
             TOTAL_X_PIXELS,
@@ -130,7 +132,7 @@ class LCD:
             reset=Pin(RESET_PIN, Pin.OUT),
             cs=Pin(CS_PIN, Pin.OUT),
             dc=Pin(DC_PIN, Pin.OUT),
-            backlight=Pin(BACKLIGHT_PIN, Pin.OUT),
+            backlight=backlight_pin,
 
             rotation=rotation,  # 0, 1, 2, 3
             options=options,
@@ -145,6 +147,18 @@ class LCD:
         '''
 
         self.tft.init()
+
+    def on(self) -> None:
+        '''
+        Function to turn the screen on.
+        '''
+        self.backlight_pin.value(1)
+
+    def off(self) -> None:
+        '''
+        Function to turn the screen off.
+        '''
+        self.backlight_pin.value(0)
 
     def screen_width(self) -> int:
         '''
