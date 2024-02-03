@@ -170,9 +170,13 @@ class LCD:
              xpos: int,
              ypos: int,
              color=colors['WHITE'],
-             bg_color=colors['BLACK']) -> None:
+             bg_color=colors['BLACK'],
+             wrap=False
+             ) -> None:
         '''
-        Function that extends st7789's text func.
+        Function that extends st7789's text function.
+
+        Function wraps text to the following line if the length goes beyond.
 
         Parameters:
             font: font style.
@@ -181,7 +185,7 @@ class LCD:
             ypos: y pixel position.
             color: color of text (default white).
             bg_color: background color of text (default black).
-            ignore_wrap (default False): bool to ignore class option.
+            wrap (default False): wrap text to following line if its length is beyond the screen width.
         '''
 
         start_x, start_y = xpos, ypos
@@ -189,26 +193,31 @@ class LCD:
         # Make font size
         font_size = (font.WIDTH, font.HEIGHT)
 
-        # going through each word in the string, if it will be printed pass the screen width, then it goes to the next line aligned vertically.
-        for word in text.split(' '):
-            word_len = len(word) * font_size[0]
+        if wrap is False:
+            # Display text normally
+            self.tft.text(font, text, xpos, ypos, color, bg_color)
+        else:
+            # Going through each word in the string,
+            # if it will be printed pass the screen width, then it goes to the next line aligned vertically.
+            for word in text.split(' '):
+                word_len = len(word) * font_size[0]
 
-            # if the word is beyond the screen width adjust ypos by font height and reset the xpos.
-            if xpos + word_len > self.screen_width():
-                ypos += font_size[1]
-                xpos = start_x
+                # if the word is beyond the screen width adjust ypos by font height and reset the xpos.
+                if xpos + word_len > self.screen_width():
+                    ypos += font_size[1]
+                    xpos = start_x
 
-            # print word to screen
-            self.tft.text(font, word, xpos, ypos, color, bg_color)
-            xpos += word_len
+                # print word to screen
+                self.tft.text(font, word, xpos, ypos, color, bg_color)
+                xpos += word_len
 
-            # after each word, if the xpos is back at the start, dont print a space (i.e align to the left)
-            if xpos == start_x:
-                continue
-            else:
-                # printing space between words
-                self.tft.text(font, ' ', xpos, ypos, color, bg_color)
-                xpos += font_size[0]
+                # after each word, if the xpos is back at the start, dont print a space (i.e align to the left)
+                if xpos == start_x:
+                    continue
+                else:
+                    # printing space between words
+                    self.tft.text(font, ' ', xpos, ypos, color, bg_color)
+                    xpos += font_size[0]
 
     def center_text(self, font, text, xpos=None, ypos=None, color=colors['WHITE'], background_color=colors['BLACK']) -> None:
         '''
@@ -333,10 +342,10 @@ if __name__ == '__main__':
         background_color=bg_color
     )
 
+    utime.sleep(2)
     screen.fill(bg_color)
-    utime.sleep(0.5)
 
     font = large_font
 
     screen.text(
-        font, 'Hello World! I hope you are having a great day!', 0, 0)
+        font, 'Hello World! I hope you are having a great day!', 0, 0, wrap=False)
