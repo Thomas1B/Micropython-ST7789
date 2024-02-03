@@ -359,7 +359,7 @@ if __name__ == '__main__':
         TOTAL_Y_PIXELS=TOTAL_Y_PIXELS,
         rotation=1,
         buffer_size=0,
-        options=st7789.WRAP,
+        # options=st7789.WRAP,
         RESET_PIN=RESET_PIN,
         CS_PIN=CS_PIN,
         DC_PIN=DC_PIN,
@@ -382,10 +382,10 @@ if __name__ == '__main__':
         wrap=True
     )
 
-    # utime.sleep(2)
-    # screen.fill(bg_color)
+    utime.sleep(2)
+    screen.fill(bg_color)
 
-    # font = large_font
+    font = large_font
 
-    # screen.text(
-    #     font, 'Hello World! I hope you are having a great day!', 0, 0, wrap=True)
+    screen.text(
+        font, 'Hello World! I hope you are having a great day!', 0, 0, wrap=True)
