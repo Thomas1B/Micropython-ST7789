@@ -220,7 +220,14 @@ class LCD:
                     self.tft.text(font, ' ', xpos, ypos, color, bg_color)
                     xpos += font_size[0]
 
-    def center_text(self, font, text, xpos=None, ypos=None, color=colors['WHITE'], background_color=colors['BLACK'], wrap=True) -> None:
+    def center_text(self,
+                    font,
+                    text,
+                    xpos=None,
+                    ypos=None,
+                    color=colors['WHITE'],
+                    bg_color=colors['BLACK'],
+                    wrap=True) -> None:
         '''
         Function to center text on the LCD.
 
@@ -233,19 +240,17 @@ class LCD:
             bg_color: background color of text (default black).
             wrap (default True): wrap text to following line if its length is beyond the screen width.
         '''
-
         # length of string
         length = 1 if isinstance(text, int) else len(text)
 
         if xpos == None:
             xpos = self.screen_width() // 2 - length // 2 * font.WIDTH
-            if xpos < 0:
-                xpos = 0
+        if xpos < 0:
+            xpos = length // 2
         if ypos == None:
             ypos = self.screen_height() // 2 - font.HEIGHT // 2
 
         start_x, start_y = xpos, ypos
-        print(start_x, start_y)
 
         # Make font size
         font_size = (font.WIDTH, font.HEIGHT)
@@ -372,7 +377,8 @@ if __name__ == '__main__':
         large_font,
         example,
         color=color,
-        background_color=bg_color,
+        ypos=60,
+        bg_color=bg_color,
         wrap=True
     )
 
@@ -382,4 +388,4 @@ if __name__ == '__main__':
     # font = large_font
 
     # screen.text(
-    #     font, 'Hello World! I hope you are having a great day!', 0, 0, wrap=False)
+    #     font, 'Hello World! I hope you are having a great day!', 0, 0, wrap=True)
