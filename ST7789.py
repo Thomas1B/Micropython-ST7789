@@ -132,7 +132,7 @@ class LCD:
             reset=Pin(RESET_PIN, Pin.OUT),
             cs=Pin(CS_PIN, Pin.OUT),
             dc=Pin(DC_PIN, Pin.OUT),
-            backlight=backlight_pin,
+            backlight=Pin(BACKLIGHT_PIN, Pin.OUT),
 
             rotation=rotation,  # 0, 1, 2, 3
             options=options,
