@@ -63,16 +63,16 @@ BFA = 0	 # bottom free area when scrolling
 
 # *********************************** *****************************************
 
-# Base Colors
-colors = {'BLACK': st7789.BLACK,
-          'BLUE': st7789.BLUE,
-          'WHITE': st7789.WHITE,
-          'RED': st7789.RED,
-          'GREEN': st7789.GREEN,
-          'CYAN': st7789.CYAN,
-          'MAGENTA': st7789.MAGENTA,
-          'YELLOW': st7789.YELLOW,
-          }
+
+class LCD_Colors:
+    BLACK = st7789.BLACK
+    BLUE = st7789.BLUE
+    WHITE = st7789.WHITE
+    RED = st7789.RED
+    GREEN = st7789.GREEN
+    CYAN = st7789.CYAN
+    MAGENTA = st7789.MAGENTA
+    YELLOW = st7789.YELLOW
 
 
 def get_text_width(text: str, font) -> int:
@@ -184,8 +184,8 @@ class LCD:
              text: str,
              xpos: int,
              ypos: int,
-             color=colors['WHITE'],
-             bg_color=colors['BLACK'],
+             color=LCD_Colors.WHITE,
+             bg_color=LCD_Colors.BLACK,
              wrap=False
              ) -> None:
         '''
@@ -239,8 +239,8 @@ class LCD:
                     text,
                     xpos=None,
                     ypos=None,
-                    color=colors['WHITE'],
-                    bg_color=colors['BLACK'],
+                    color=LCD_Colors.WHITE,
+                    bg_color=LCD_Colors.BLACK,
                     wrap=True) -> None:
         '''
         Function to center text on the LCD.
@@ -295,7 +295,7 @@ class LCD:
                     self.tft.text(font, ' ', xpos, ypos, color, bg_color)
                     xpos += font_size[0]
 
-    def fill(self, color=colors['BLACK']) -> None:
+    def fill(self, color=LCD_Colors.BLACK) -> None:
         '''
         Function to fill the LCD.
 
@@ -304,7 +304,7 @@ class LCD:
 
         self.tft.fill(color)
 
-    def clear_screen(self, color=colors["BLACK"]) -> None:
+    def clear_screen(self, color=LCD_Colors.BLACK) -> None:
         '''
         Function to clear the screen
 
@@ -381,8 +381,8 @@ if __name__ == '__main__':
 
     screen.init()
 
-    color = colors["CYAN"]
-    bg_color = colors['BLACK']
+    color = LCD_Colors.CYAN
+    bg_color = LCD_Colors.BLACK
     screen.fill(bg_color)
 
     example = 'Hello World! I hope you are doing great'
