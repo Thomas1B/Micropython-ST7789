@@ -264,8 +264,6 @@ class LCD:
         if ypos == None:
             ypos = self.screen_height() // 2 - font.HEIGHT // 2
 
-        start_x, start_y = xpos, ypos
-
         # Make font size
         font_size = (font.WIDTH, font.HEIGHT)
 
@@ -275,6 +273,7 @@ class LCD:
         else:
             # Going through each word in the string,
             # if it will be printed pass the screen width, then it goes to the next line aligned vertically.
+            start_x, start_y = xpos, ypos
             for word in text.split(' '):
                 word_len = len(word) * font_size[0]
 
